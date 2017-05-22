@@ -1,6 +1,5 @@
 FROM ubuntu:xenial
-
-MAINTAINER Bilal Sheikh <bilal@techtraits.com>
+MAINTAINER Landon Wainwright <landon@acmeticketing.com>
 
 RUN apt-get update && apt-get -y upgrade && apt-get -y install software-properties-common bzip2 && add-apt-repository ppa:webupd8team/java -y && apt-get update
 
