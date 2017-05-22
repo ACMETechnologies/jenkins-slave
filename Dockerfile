@@ -2,7 +2,7 @@ FROM ubuntu:xenial
 
 MAINTAINER Bilal Sheikh <bilal@techtraits.com>
 
-RUN apt-get update && apt-get -y upgrade && apt-get -y install software-properties-common && add-apt-repository ppa:webupd8team/java -y && apt-get update
+RUN apt-get update && apt-get -y upgrade && apt-get -y install software-properties-common bzip2 && add-apt-repository ppa:webupd8team/java -y && apt-get update
 
 RUN (echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections) && apt-get install -y oracle-java8-installer oracle-java8-set-default
 
@@ -13,7 +13,7 @@ ENV PATH $JAVA_HOME/bin:$PATH
 # apparmor is required to run docker server within docker container
 RUN apt-get update -qq && apt-get install -qqy wget curl git iptables ca-certificates apparmor
 
-ENV JENKINS_SWARM_VERSION 2.2
+ENV JENKINS_SWARM_VERSION 3.4
 ENV HOME /home/jenkins-slave
 
 
