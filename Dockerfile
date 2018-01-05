@@ -46,4 +46,7 @@ VOLUME /var/lib/docker
 #ENV JENKINS_PASSWORD jenkins
 #ENV JENKINS_MASTER http://jenkins:8080
 
+# adding iptables MTU adjust to fix broken network when this docker in docker is running in Rancher IPSEC networking
+CMD iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+
 CMD /bin/bash /cmd.sh
