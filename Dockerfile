@@ -2,6 +2,9 @@ FROM ubuntu:xenial
 
 MAINTAINER Gabor Debreczeni-Kis <gabor@acmeticketing.com>
 
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get -y install apt-utils
+
 RUN apt-get update && apt-get -y upgrade && apt-get -y install software-properties-common && add-apt-repository ppa:webupd8team/java -y && apt-get update
 
 RUN apt-get -y install bzip2 libfontconfig
