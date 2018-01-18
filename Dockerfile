@@ -3,15 +3,10 @@ FROM ubuntu:xenial
 MAINTAINER Gabor Debreczeni-Kis <gabor@acmeticketing.com>
 
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get -y install apt-utils
+RUN apt-get update && apt-get -y install apt-utils dialog
+RUN apt-get update && apt-get -y upgrade && apt-get -y install software-properties-common openjdk-8-jdk bzip2 libfontconfig
 
-RUN apt-get update && apt-get -y upgrade && apt-get -y install software-properties-common && add-apt-repository ppa:webupd8team/java -y && apt-get update
-
-RUN apt-get -y install bzip2 libfontconfig
-
-RUN (echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections) && apt-get install -y oracle-java8-installer oracle-java8-set-default
-
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV PATH $JAVA_HOME/bin:$PATH
 
 
@@ -48,8 +43,5 @@ VOLUME /var/lib/docker
 #ENV JENKINS_USERNAME jenkins
 #ENV JENKINS_PASSWORD jenkins
 #ENV JENKINS_MASTER http://jenkins:8080
-
-# adding iptables MTU adjust to fix broken network when this docker in docker is running in Rancher IPSEC networking
-CMD iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
 
 CMD /bin/bash /cmd.sh

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# adding iptables MTU adjust to fix broken network when this docker in docker is running in Rancher IPSEC networking
+iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+
 for i in {0..6}
 do
     mknod -m0660 /dev/loop$i b 7 $i
