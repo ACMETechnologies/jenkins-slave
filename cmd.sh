@@ -28,4 +28,7 @@ else
   fi
 fi
 
+# adding iptables MTU adjust to fix broken network when this docker in docker is running in Rancher IPSEC networking
+iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+
 java -jar $JAR $PARAMS -fsroot $HOME

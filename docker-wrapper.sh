@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# adding iptables MTU adjust to fix broken network when this docker in docker is running in Rancher IPSEC networking
-iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
-
 for i in {0..6}
 do
     mknod -m0660 /dev/loop$i b 7 $i
@@ -20,10 +17,10 @@ echo "Launching docker server DND style..."
 # First, make sure that cgroups are mounted correctly.
 CGROUP=/sys/fs/cgroup
 
-[ -d $CGROUP ] || 
+[ -d $CGROUP ] ||
 	mkdir $CGROUP
 
-mountpoint -q $CGROUP || 
+mountpoint -q $CGROUP ||
 	mount -n -t tmpfs -o uid=0,gid=0,mode=0755 cgroup $CGROUP || {
 		echo "Could not make a tmpfs mount. Did you use --privileged?"
 		exit 1
@@ -41,7 +38,7 @@ fi
 for SUBSYS in $(cut -d: -f2 /proc/1/cgroup)
 do
         [ -d $CGROUP/$SUBSYS ] || mkdir $CGROUP/$SUBSYS
-        mountpoint -q $CGROUP/$SUBSYS || 
+        mountpoint -q $CGROUP/$SUBSYS ||
                 mount -n -t cgroup -o $SUBSYS cgroup $CGROUP/$SUBSYS
 
         # The two following sections address a bug which manifests itself
